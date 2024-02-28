@@ -4,6 +4,7 @@ import "./App.css";
 
 function App() {
   const [workouts, setWorkouts] = useState(initialWorkouts);
+  const [showDoneOnly, setShowDoneOnly] = useState(false);
 
   const addNewWorkout = () => {
     const newWorkout = generateWorkout();
@@ -28,23 +29,31 @@ function App() {
     <div className="App">
       <h1>🏋️‍♀️Workout Generator</h1>
       <button onClick={addNewWorkout}>Add New Workout</button>
+      <label>
+        <input type="checkbox" onClick={() => setShowDoneOnly(!showDoneOnly)} />
+        Show Done Only
+      </label>
       <ul>
-        {workouts.map((workout, index) => (
-          <li key={index}>
-            <p>
-              {workout.sets}x sets of{" "}
-              <strong>
-                {workout.reps}x{workout.exercise}
-              </strong>{" "}
-              with {workout.rest} seconds rest
-            </p>
-            {!workout.done && (
-              <button onClick={() => completeWorkout(workout)}>Done</button>
-            )}
-            {workout.done && <p>✅</p>}
-            <button onClick={() => deleteWorkout(workout)}>Delete</button>
-          </li>
-        ))}
+        {workouts.map(
+          (workout, index) =>
+            // Makes list of done workouts if the "show done only" checkbox is checked, and list of all workouts if not
+            (!showDoneOnly || workout.done) && (
+              <li key={index}>
+                <p>
+                  {workout.sets}x sets of{" "}
+                  <strong>
+                    {workout.reps}x{workout.exercise}
+                  </strong>{" "}
+                  with {workout.rest} seconds rest
+                </p>
+                {!workout.done && (
+                  <button onClick={() => completeWorkout(workout)}>Done</button>
+                )}
+                {workout.done && <p>✅</p>}
+                <button onClick={() => deleteWorkout(workout)}>Delete</button>
+              </li>
+            )
+        )}
       </ul>
     </div>
   );
