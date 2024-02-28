@@ -25,6 +25,23 @@ function App() {
     setWorkouts(updatedWorkouts);
   };
 
+  const replaceWorkout = (workout) => {
+    const newWorkout = generateWorkout();
+    const updatedWorkouts = workouts.map((w) =>
+      w === workout
+        ? {
+            ...w,
+            exercise: newWorkout.exercise,
+            reps: newWorkout.reps,
+            rest: newWorkout.rest,
+            sets: newWorkout.sets,
+            done: newWorkout.done,
+          }
+        : w
+    );
+    setWorkouts(updatedWorkouts);
+  };
+
   return (
     <div className="App">
       <h1>🏋️‍♀️Workout Generator</h1>
@@ -51,6 +68,7 @@ function App() {
                 )}
                 {workout.done && <p>✅</p>}
                 <button onClick={() => deleteWorkout(workout)}>Delete</button>
+                <button onClick={() => replaceWorkout(workout)}>Replace</button>
               </li>
             )
         )}
