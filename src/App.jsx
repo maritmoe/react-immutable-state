@@ -7,9 +7,7 @@ function App() {
   const [showDoneOnly, setShowDoneOnly] = useState(false);
 
   const addNewWorkout = () => {
-    const newWorkout = generateWorkout();
-    console.log("addNewWorkout:", newWorkout);
-    setWorkouts([...workouts, newWorkout]);
+    setWorkouts([...workouts, generateWorkout()]);
   };
 
   const deleteWorkout = (workout) => {
@@ -26,18 +24,8 @@ function App() {
   };
 
   const replaceWorkout = (workout) => {
-    const newWorkout = generateWorkout();
     const updatedWorkouts = workouts.map((w) =>
-      w === workout
-        ? {
-            ...w,
-            exercise: newWorkout.exercise,
-            reps: newWorkout.reps,
-            rest: newWorkout.rest,
-            sets: newWorkout.sets,
-            done: newWorkout.done,
-          }
-        : w
+      w === workout ? { ...generateWorkout() } : w
     );
     setWorkouts(updatedWorkouts);
   };
